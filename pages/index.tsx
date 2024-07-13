@@ -1,13 +1,18 @@
 import { Inter } from "next/font/google";
 import fs from 'fs/promises'
-import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({code, mtime}: InferGetStaticPropsType<typeof getStaticProps> ){
+export default function Home({code, mtime}: InferGetServerSidePropsType<typeof getServerSideProps> ){
   const typography = 'font-sans  antialiased leading-relaxed text-inherit text-lg'
 
   return (
+    <>
+    <Head>
+        <title>验证码是多少！？</title>
+    </Head>
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
     >
@@ -16,12 +21,13 @@ export default function Home({code, mtime}: InferGetStaticPropsType<typeof getSt
         <p className={`${typography}`}>验证码：{code}</p>
       </div>
     </main>
+    </>
   );
 }
 
-export const getStaticProps = (async () => {
-  const code = await fs.readFile('/home/orkward/Repos/tg-verification-code-helper/dist/logs/messages.log', 'utf8');
-  const {mtime} = await fs.stat('/home/orkward/Repos/tg-verification-code-helper/dist/logs/messages.log')
+export const getServerSideProps = (async () => {
+  const code = await fs.readFile('/mount/code', 'utf8');
+  const {mtime} = await fs.stat('/mount/code')
   return {props: {code, mtime: mtime.toLocaleString('zn-CN')}};
-}) satisfies GetStaticProps<{code: string, mtime: string}>;
+}) satisfies GetServerSideProps<{code: string, mtime: string}>;
 
