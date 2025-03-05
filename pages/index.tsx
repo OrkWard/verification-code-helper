@@ -9,7 +9,7 @@ export default function Home({
   mtime,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const typography =
-    "font-sans  antialiased leading-relaxed text-inherit text-lg";
+    "font-sans antialiased leading-relaxed text-inherit text-lg";
 
   return (
     <>
@@ -19,7 +19,7 @@ export default function Home({
       <main
         className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
       >
-        <div className="relative flex flex-col place-items-center before:-z-10 before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
+        <div className="relative flex flex-col place-items-center before:absolute before:-z-10 before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40">
           <p className={`${typography}`}>上次获取时间：{mtime}</p>
           <p className={`${typography}`}>验证码：{code}</p>
         </div>
@@ -39,9 +39,6 @@ async function getCode() {
   }
 
   const res = await fetch(`${process.env.BACKEND_URL}`);
-  // const j = await res.json()
-  // console.log(j);
-  // return j
 
   return await (res.json() as Promise<Code>);
 }
