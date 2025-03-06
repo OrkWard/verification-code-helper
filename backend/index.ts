@@ -21,7 +21,7 @@ bot.on("channel_post", async (msg) => {
 
       await redis.set(
         REDIS_KEY,
-        JSON.stringify({ code, ctime: new Date().getTime() }),
+        JSON.stringify({ code, mtime: new Date().getTime() }),
       );
 
       console.log("写入数据库成功");
@@ -44,20 +44,20 @@ bot.on("polling_error", (err) => {
   }
 });
 
-console.log("Telegram bot 已启动...");
+console.log("Telegram bot 已启动");
 
 const httpServer = http.createServer(async (req, res) => {
   res.writeHead(200, { "content-type": "application/json" });
   const code = await redis
     .get(REDIS_KEY)
     .then((v) =>
-      v ? (JSON.parse(v) as { code: string; ctime: string }) : undefined,
+      v ? (JSON.parse(v) as { code: string; mtime: string }) : undefined,
     );
   res.end(
     JSON.stringify({
       code: code?.code ?? "暂时没有收到！",
-      mtime: code?.ctime
-        ? new Date(code.ctime).toLocaleString("zh-CN", {
+      mtime: code?.mtime
+        ? new Date(code.mtime).toLocaleString("zh-CN", {
             timeZone: "Asia/Shanghai",
           })
         : "暂时没有收到！",
