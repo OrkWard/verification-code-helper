@@ -1,4 +1,4 @@
-FROM node:lts as builder
+FROM node:lts AS builder
 WORKDIR /build
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY backend/package.json ./backend/
@@ -11,13 +11,13 @@ RUN pnpm run --recursive build
 
 FROM builder
 
-FROM node:slim as prod-bot
+FROM node:slim AS prod-bot
 COPY --from=builder /build/backend /build/node_modules /app/
 ENV NODE_ENV production
 WORKDIR /app/backend
 CMD ["node", "./dist/index.js"]
 
-FROM node:slim as prod-page
+FROM node:slim AS prod-page
 COPY --from=builder /build/page /app/
 WORKDIR /app/page
 CMD ["npm", "run", "start"]
