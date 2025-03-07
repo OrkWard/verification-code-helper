@@ -17,6 +17,8 @@ services:
     build:
       context: .
       target: prod-page
+    environment:
+      BACKEND_URL: "http://bot:8000"
     depends_on:
       - bot
     ports:

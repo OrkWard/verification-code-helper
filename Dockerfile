@@ -7,7 +7,6 @@ RUN npm install -g corepack \
     && corepack enable \
     && pnpm install --frozen-lockfile
 COPY . .
-ENV BACKEND_URL http://bot:8000
 RUN pnpm run --recursive build
 
 FROM builder
