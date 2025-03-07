@@ -15,10 +15,9 @@ FROM node:slim as prod-bot
 COPY --from=builder /build/backend /build/node_modules /app/
 ENV NODE_ENV production
 WORKDIR /app/backend
-CMD ["node", "./dist/main.js"]
+CMD ["node", "./dist/index.js"]
 
 FROM node:slim as prod-page
 COPY --from=builder /build/page /app/
 WORKDIR /app/page
 CMD ["npm", "run", "start"]
-
