@@ -1,0 +1,22 @@
+version: '3.9'
+services: 
+  bot:
+    build: .
+    target: prod-bot
+    depends_on:
+      - redis
+    expose:
+      - "8000"
+
+  page:
+    build: .
+    target: prod-page
+    depends_on:
+      - bot
+    ports:
+      - "3000:3000"
+
+  redis:
+    image: "redis:alpine"
+    export:
+      - "6379"
